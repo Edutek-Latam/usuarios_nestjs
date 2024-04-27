@@ -3,10 +3,10 @@ import { IsDateString, IsEmail, IsEnum, IsInt, IsString, MinLength } from "class
 
 export class CreateUserDto {
   
-    @Transform(({value})=>{
+   /*  @Transform(({value})=>{
         console.log(value)
         return value.toUpperCase();
-    })
+    }) */
     @IsString()
     @MinLength(3)
     firstname: string;
@@ -29,6 +29,6 @@ export class CreateUserDto {
     @IsString()
     rol: string;
     
-    @IsDateString()
-    fecha_nac: Date;
+    /* @IsDateString()
+    fecha_nac: Date; */
 }

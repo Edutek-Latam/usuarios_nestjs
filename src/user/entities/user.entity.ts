@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Generated, PrimaryGeneratedColumn, UpdateDateColumn, VersionColumn } from "typeorm";
 import { UUID } from "typeorm/driver/mongodb/bson.typings";
 
 @Entity({name:'user'})
@@ -8,7 +8,8 @@ export class User {
     @PrimaryGeneratedColumn("uuid")
     id:string;
 
-    @Column({type:'number',nullable:false})
+    @Generated('increment')
+    @Column()
     code: number;
 
     @Column({nullable:false})
@@ -34,4 +35,14 @@ export class User {
     
     @Column({nullable: false,default:'user'})
     rol: string;
+
+    @CreateDateColumn()
+    createdDate: Date
+
+    @UpdateDateColumn()
+    updatedDate: Date
+
+    @VersionColumn({nullable:true})
+    version: number
+
 }

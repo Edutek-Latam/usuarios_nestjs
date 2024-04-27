@@ -12,7 +12,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     database:'edutek',
     username:'sgonzalez',
     password:'Sher4632.',
-    synchronize:true
+    synchronize:true,
+    autoLoadEntities: true
   })
   ],
   controllers: [AppController],
