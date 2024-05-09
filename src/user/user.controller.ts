@@ -3,15 +3,18 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @ApiResponse({ status: 201, description: 'The record has been successfully created.', type:CreateUserDto})
   create(@Body() createUserDto: CreateUserDto) {
     //cont body = req.body
-    console.log(createUserDto);
+    //console.log(createUserDto);
     return this.userService.create(createUserDto);
   }
 
@@ -21,7 +24,7 @@ export class UserController {
   }
 
   //router.get('user/:id',user.getBiYd)
-  @UseGuards(new AuthGuard())
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     

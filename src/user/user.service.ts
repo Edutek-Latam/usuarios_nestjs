@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { createHash } from 'src/helpers/auth/hasing';
 
 @Injectable()
 export class UserService {
@@ -13,7 +14,7 @@ constructor(
   private _userRepository: Repository<User>  ){}
   async create(createUserDto: CreateUserDto) {
     try {
-      const newUser = this._userRepository.create(createUserDto);
+      const newUser = this._userRepository.create({...createUserDto,password: createHash(createUserDto.password)});
       const saveUser = await this._userRepository.save(newUser);
       return saveUser;
     } catch (error) {
@@ -31,11 +32,25 @@ constructor(
   async findOne(id: string) {
     try {
       const userExiste = await this._userRepository.findOneBy({id: id})
-      console.log(userExiste);
+      //console.log(userExiste);
       if(!userExiste) {
         throw new NotFoundException('Registro no existe');
       }
-      console.log(userExiste)
+      //console.log(userExiste)
+      return userExiste;
+    } catch (error) {
+      throw new NotFoundException('Registro no existe');
+    }
+  }
+
+  async findByEmail(email: string) {
+    try {
+      const userExiste = await this._userRepository.findOneBy({email})
+      //console.log(userExiste);
+      if(!userExiste) {
+        throw new NotFoundException('Registro no existe');
+      }
+      //console.log(userExiste)
       return userExiste;
     } catch (error) {
       throw new NotFoundException('Registro no existe');
